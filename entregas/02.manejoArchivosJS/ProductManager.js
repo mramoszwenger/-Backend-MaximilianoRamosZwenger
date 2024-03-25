@@ -1,13 +1,13 @@
 const { error } = require('node:console');
-const fs = require('node:fs')
+const fs = require('node:fs');
 
 class ProductManager {
     constructor(path) {
-        this.path = path
+        this.path = path;
         this.initialized = false;
         this.products = [];
         this.productIdCounter = 1;
-        this.init()
+        this.init();
     }
 
     async init() {
@@ -33,10 +33,10 @@ class ProductManager {
 
     readFile = async () => {
         try {
-            const dataJson = await fs.promises.readFile(this.path, 'utf-8')
-            return JSON.parse(dataJson)
+            const dataJson = await fs.promises.readFile(this.path, 'utf-8');
+            return JSON.parse(dataJson);
         } catch(error) {
-            return []
+            return [];
         }
     }
 
@@ -63,12 +63,12 @@ class ProductManager {
             this.products.push(product);
             console.log('Producto agregado:', product);
 
-            await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'), 'utf-8')
+            await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'), 'utf-8');
 
-            return this.products
+            return this.products;
 
         } catch(error) {
-            console.error(error)
+            console.error(error);
         }
     }
 
@@ -76,7 +76,7 @@ class ProductManager {
         try {
             return this.products;
         } catch(error) {
-            console.error(error)
+            console.error(error);
         }
     }
 
@@ -85,27 +85,27 @@ class ProductManager {
 
             const product = this.products.find(product => product.id === id);
             if (!product) {
-              return 'Producto no encontrado.'  
+              return 'Producto no encontrado.';
             }
 
             return product;
 
         } catch(error) {
-            console.error(error)
+            console.error(error);
         }
     }
 
     updateProduct = async (id, productToUpdate) => {
         try {
-            const findProduct = this.products.findIndex(product => product.id === id)
+            const findProduct = this.products.findIndex(product => product.id === id);
             if (findProduct === -1) {
                 console.log('Producto no encontrado');
             }
             this.products[findProduct] = { ...this.products[findProduct], ...productToUpdate }
             await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'), 'utf-8');
-            return this.products[findProduct]
+            return this.products[findProduct];
         } catch (error) {
-            console.error('Error al actualizar el producto:', error)
+            console.error('Error al actualizar el producto:', error);
         }
     }
 
@@ -114,7 +114,6 @@ class ProductManager {
         const findProduct = this.products.findIndex(product => product.id === id);
         if (findProduct === -1) {
             console.error('Error: Producto no encontrado');
-            return null;
         }
 
         const deletedProduct = this.products.splice(index, 1)[0];
@@ -122,7 +121,7 @@ class ProductManager {
         return deletedProduct;
 
         } catch(error) {
-            console.log(error)
+            console.log(error);
         }
     }
 }
