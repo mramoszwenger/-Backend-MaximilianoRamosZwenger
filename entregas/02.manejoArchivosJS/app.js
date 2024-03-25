@@ -1,28 +1,31 @@
 const { ProductManager } = require('./ProductManager.js');
 const path = './file/Products.json';
-const products = new ProductManager(path);
 
 const main = async () => {
+    try {
+        const products = new ProductManager(path);
 
-    const products = await ProductManager.create(path);
+        // Agregar producto de prueba
+        const response = await products.addProduct({
+            title: 'Disco Solido SSD 240GB',
+            description: 'SSD 240GB 2.5 SATA III Kingstone A400 lectura hasta 500MB Y escritura hasta 450MB',
+            price: 38840,
+            thumbnail: 'img/ssda400-240gb.jpg',
+            code: 'SSDK240',
+            stock: 722
+        })
 
-    // Agregar producto de prueba
-    const response = await products.addProduct({
-        title: 'Disco Solido SSD 240GB',
-        description: 'SSD 240GB 2.5 SATA III Kingstone A400 lectura hasta 500MB Y escritura hasta 450MB',
-        price: 38840,
-        thumbnail: 'img/ssda400-240gb.jpg',
-        code: 'SSDK240',
-        stock: 722
-    })
+        console.log('Se ha agregado el producto:', response)
 
-    console.log('Se ha agregado el producto:', response)
+        // Obtener todos los productos
+        console.log('Lista de productos:', products.getProducts());
 
-    // Obtener todos los productos
-    console.log('Lista de productos:', products.getProducts());
+        // Obtener un producto por id
+        console.log('Producto con por id:', products.getProductById(2));
 
-    // Obtener un producto por id
-    console.log('Producto con por id:', products.getProductById(2));
+    } catch(error) {
+        console.error(error)
+    }
 
 }
 
