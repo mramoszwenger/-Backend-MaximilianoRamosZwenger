@@ -15,7 +15,7 @@ const main = async () => {
             stock: 722
         })
 
-        console.log('Se ha agregado el producto:', response)
+        console.log('Se ha agregado el producto:', response);
 
         // Obtener todos los productos
         console.log('Lista de productos:', products.getProducts());
@@ -24,7 +24,7 @@ const main = async () => {
         console.log('Producto con por id:', products.getProductById(2));
 
     } catch(error) {
-        console.error(error)
+        console.error(error);
     }
 
 }
