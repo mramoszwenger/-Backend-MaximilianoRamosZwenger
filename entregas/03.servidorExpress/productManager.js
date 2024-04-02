@@ -13,20 +13,10 @@ class ProductManager {
     init = async () => {
         try {
             const dataJson = await fs.promises.readFile(this.path, 'utf-8');
-
-            // Verificar si el archivo JSON está vacío
-            if (!dataJson.trim()) {
-                this.products = [];
-            } else {
-                this.products = JSON.parse(dataJson);
-
-                if (this.products.length > 0) {
-                    this.productIdCounter = Math.max(...this.products.map(product => product.id)) + 1;
-                }
-            }
-
+            this.products = dataJson.trim() ? JSON.parse(dataJson) : [];
+            this.productIdCounter = this.products.length > 0 ? Math.max(...this.products.map(product => product.id)) + 1 : 1;
             this.initialized = true;
-        } catch(error) {
+        } catch (error) {
             console.error('Error al inicializar:', error);
         }
     }
@@ -42,35 +32,34 @@ class ProductManager {
     }
 
     addProduct = async (product) => {
+        
+        // Validar que todos los campos sean obligatorios
+        const requiredFields = ['title', 'description', 'price', 'thumbnail', 'code', 'stock'];
+        const allFields = requiredFields.every(field => product.hasOwnProperty(field) && (product[field] !== undefined && product[field] !== ''));
+        if (!allFields) {
+            console.error('Todos los campos son obligatorios.');
+            return;
+        }
+
+        // Validar que no se repita el campo "code"
+        const uniqueCode = this.products.every(existingProduct => existingProduct.code !== product.code);
+        if (!uniqueCode) {
+            console.error('El código del producto ya existe.');
+            return;
+        }
+
+        // Asignar un id autoincrementable al producto y agregarlo
+        product.id = this.productIdCounter++;
+        this.products.push(product);
+        console.log('Producto agregado:', product);
+
         try {
-
-            // Validar que todos los campos sean obligatorios
-            const requiredFields = ['title', 'description', 'price', 'thumbnail', 'code', 'stock'];
-            const allFields = requiredFields.every(field => product.hasOwnProperty(field) && (product[field] !== undefined && product[field] !== ''));
-            if (!allFields) {
-                console.error('Todos los campos son obligatorios.');
-                return;
-            }
-
-            // Validar que no se repita el campo "code"
-            const uniqueCode = this.products.every(existingProduct => existingProduct.code !== product.code);
-            if (!uniqueCode) {
-                console.error('El código del producto ya existe.');
-                return;
-            }
-
-            // Asignar un id autoincrementable al producto y agregarlo
-            product.id = this.productIdCounter++;
-            this.products.push(product);
-            console.log('Producto agregado:', product);
-
             await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'), 'utf-8');
-
-            return this.products;
-
         } catch(error) {
             console.error('Error al agregar el producto:', error);
         }
+        return this.products;
+
     }
 
     getProducts = async () => {
