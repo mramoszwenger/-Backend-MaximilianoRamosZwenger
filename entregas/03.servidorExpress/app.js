@@ -17,9 +17,9 @@ products.init().then(() => {
 
     app.get('/products', async (request, response) => {
         try{
-            let productList = await ProductManager.getProducts();
+            let productList = await products.getProducts();
             if(request.query.limit) {
-                products = products.slice(0, Number(request.query.limit));
+                productsList = productsList.slice(0, Number(request.query.limit));
             }
             response.json(productList);
         } catch(error) {
@@ -27,16 +27,16 @@ products.init().then(() => {
         }
     });
 
-    app.get('products/:pid', async (request, response) => {
+    app.get('/products/:pid', async (request, response) => {
         try {
             const { pid } = request.params;
-            const product = await productsManager.getProductById(Number(pid));
+            const product = await products.getProductById(Number(pid));
             if (!product) {
                 return response.status(404).send('Producto no encontrado');
             }
-            res.json(product); 
+            response.json(product); 
         } catch(error) {
-            res.status(500).send('Error al obtener producto por ID');
+            response.status(500).send('Error al obtener producto por ID');
         }       
     });
 
@@ -47,13 +47,8 @@ products.init().then(() => {
 })
 
 
-
-
-
-
-
-/*
-
+/*const main = async () => {
+    try {
         // Agregar producto de prueba
         const response = await products.addProduct({
             title: 'Disco Solido SSD 240GB',
@@ -75,7 +70,10 @@ products.init().then(() => {
     } catch(error) {
         console.error(error);
     }
-*/
+
+}
+
+main() */
 
 
 /* Ejemplos de productos
