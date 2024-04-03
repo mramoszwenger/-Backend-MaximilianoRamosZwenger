@@ -1,9 +1,58 @@
+const express = require('express');
 const { ProductManager } = require('./ProductManager.js');
 const path = './file/Products.json';
 
-const main = async () => {
-    try {
-        const products = new ProductManager(path);
+const app = express();
+
+// Lectura del JSON
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
+const products = new ProductManager(path);
+
+products.init().then(() => {
+    console.log('ProductManager inicializado');
+
+    // Endpoints
+
+    app.get('/products', async (request, response) => {
+        try{
+            let productList = await ProductManager.getProducts();
+            if(request.query.limit) {
+                products = products.slice(0, Number(request.query.limit));
+            }
+            response.json(productList);
+        } catch(error) {
+            response.status(500).send('Error al obtener los productos')
+        }
+    });
+
+    app.get('products/:pid', async (request, response) => {
+        try {
+            const { pid } = request.params;
+            const product = await productsManager.getProductById(Number(pid));
+            if (!product) {
+                return response.status(404).send('Producto no encontrado');
+            }
+            res.json(product); 
+        } catch(error) {
+            res.status(500).send('Error al obtener producto por ID');
+        }       
+    });
+
+    app.listen(8080, error => {
+        console.log('server escuchando en puerto 8080');
+    });
+
+})
+
+
+
+
+
+
+
+/*
 
         // Agregar producto de prueba
         const response = await products.addProduct({
@@ -26,11 +75,7 @@ const main = async () => {
     } catch(error) {
         console.error(error);
     }
-
-}
-
-main()
-
+*/
 
 
 /* Ejemplos de productos
