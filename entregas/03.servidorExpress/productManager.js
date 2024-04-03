@@ -4,10 +4,8 @@ const fs = require('node:fs');
 class ProductManager {
     constructor(path) {
         this.path = path;
-        this.initialized = false;
         this.products = [];
         this.productIdCounter = 1;
-        this.init();
     }
 
     init = async () => {
@@ -38,14 +36,12 @@ class ProductManager {
         const allFields = requiredFields.every(field => product.hasOwnProperty(field) && (product[field] !== undefined && product[field] !== ''));
         if (!allFields) {
             console.error('Todos los campos son obligatorios.');
-            return;
         }
 
         // Validar que no se repita el campo "code"
         const uniqueCode = this.products.every(existingProduct => existingProduct.code !== product.code);
         if (!uniqueCode) {
             console.error('El código del producto ya existe.');
-            return;
         }
 
         // Asignar un id autoincrementable al producto y agregarlo
@@ -63,58 +59,36 @@ class ProductManager {
     }
 
     getProducts = async () => {
-        try {
-            return this.products;
-        } catch(error) {
-            console.error('Error al obtener los productos:', error);
-            return [];
-        }
+        return this.products;
     }
 
     getProductById = async (id) => {
-        try {
-            const product = this.products.find(product => product.id === id);
-            if (!product) {
-                return 'Producto no encontrado.';
-            }
-            return product;
-        } catch(error) {
-            console.error('Error al obtener el producto por ID:', error);
-            return null;
+        const product = this.products.find(product => product.id === id);
+        if (!product) {
+            return 'Producto no encontrado.';
         }
+        return product;
     }
 
     updateProduct = async (id, productToUpdate) => {
-        try {
-            const findProduct = this.products.findIndex(product => product.id === id);
-            if (findProduct === -1) {
-                console.log('Producto no encontrado');
-                return null;
-            }
-            this.products[findProduct] = { ...this.products[findProduct], ...productToUpdate }
-            await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'), 'utf-8');
-            return this.products[findProduct];
-        } catch(error) {
-            console.error('Error al actualizar el producto:', error);
+        const findProduct = this.products.findIndex(product => product.id === id);
+        if (findProduct === -1) {
+            console.log('Producto no encontrado');
             return null;
         }
+        this.products[findProduct] = { ...this.products[findProduct], ...productToUpdate }
+        await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'), 'utf-8');
+        return this.products[findProduct];
     }
 
     deleteProduct = async (id) => {
-        try {
-            const findProduct = this.products.findIndex(product => product.id === id);
-            if (findProduct === -1) {
-                console.error('Error: Producto no encontrado');
-                return null;
-            }
-
-            const deletedProduct = this.products.splice(findProduct, 1)[0];
-            fs.writeFileSync(this.path, JSON.stringify(this.products, null, '\t'), 'utf-8');
-            return deletedProduct;
-        } catch(error) {
-            console.error('Error al eliminar el producto:', error);
-            return null;
+        const findProduct = this.products.findIndex(product => product.id === id);
+        if (findProduct === -1) {
+            console.error('Error: Producto no encontrado');
         }
+        const deletedProduct = this.products.splice(findProduct, 1)[0];
+        fs.writeFile(this.path, JSON.stringify(this.products, null, '\t'), 'utf-8');
+            return deletedProduct;
     }
 }
 
