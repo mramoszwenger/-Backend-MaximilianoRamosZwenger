@@ -46,7 +46,7 @@ products.init().then(() => {
 
 })
 
-const main = async () => {
+/* const main = async () => {
     try {
         // Agregar producto de prueba
         const response = await products.addProduct({
@@ -72,7 +72,7 @@ const main = async () => {
 
 }
 
-main()
+main() */
 
 
 /* Ejemplos de productos
