@@ -1,6 +1,6 @@
 import express from 'express';
-import {ProductManager} from './managers/productManager.js';
-
+import productsRouter from './routes/product.router.js';
+import cartsRouter from './routes/cart.router.js';
 
 const path = './file/Products.json';
 
@@ -10,9 +10,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-const products = new ProductManager(path);
+app.use('/api/products', productsRouter)
+app.use('/api/carts', cartsRouter)
 
-products.init().then(() => {
+// const products = new ProductManager(path);
+
+/* products.init().then(() => {
     console.log('ProductManager inicializado');
 
     // Endpoints
@@ -41,12 +44,17 @@ products.init().then(() => {
             response.status(500).send('Error al obtener producto por ID');
         }       
     });
+}) */
 
-    app.listen(8080, error => {
-        console.log('server escuchando en puerto 8080');
-    });
+app.use((request, response, next) => {
+    console.log(error);
+    response.status(500).send('Error 500 en el server');
+});
 
-})
+app.listen(8080, error => {
+    if(error) console.log(error);
+    console.log('server escuchando en puerto 8080');
+});
 
 /* const main = async () => {
     try {

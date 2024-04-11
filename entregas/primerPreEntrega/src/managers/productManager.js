@@ -11,7 +11,7 @@ class ProductManager {
         try {
             const dataJson = await fs.promises.readFile(this.path, 'utf-8');
             this.products = dataJson.trim() ? JSON.parse(dataJson) : [];
-            this.productIdCounter = this.products.length > 0 ? Math.max(...this.products.map(product => product.id)) + 1 : 1;
+            this.productIdCounter = this.products.length > 0 ? Math.max(...this.products.map(product => product.pid)) + 1 : 1;
             this.initialized = true;
         } catch (error) {
             console.error('Error al inicializar:', error);
@@ -44,7 +44,7 @@ class ProductManager {
         }
 
         // Asignar un id autoincrementable al producto y agregarlo
-        product.id = this.productIdCounter++;
+        product.pid = this.productIdCounter++;
         this.products.push(product);
         console.log('Producto agregado:', product);
 
@@ -61,16 +61,16 @@ class ProductManager {
         return this.products;
     }
 
-    getProductById = async (id) => {
-        const product = this.products.find(product => product.id === id);
+    getProductById = async (pid) => {
+        const product = this.products.find(product => product.pid === pid);
         if (!product) {
             return 'Producto no encontrado';
         }
         return product;
     }
 
-    updateProduct = async (id, productToUpdate) => {
-        const findProduct = this.products.findIndex(product => product.id === id);
+    updateProduct = async (pid, productToUpdate) => {
+        const findProduct = this.products.findIndex(product => product.pid === pid);
         if (findProduct === -1) {
             console.log('Producto no encontrado');
             return null;
@@ -80,8 +80,8 @@ class ProductManager {
         return this.products[findProduct];
     }
 
-    deleteProduct = async (id) => {
-        const findProduct = this.products.findIndex(product => product.id === id);
+    deleteProduct = async (pid) => {
+        const findProduct = this.products.findIndex(product => product.pid === pid);
         if (findProduct === -1) {
             console.error('Error: Producto no encontrado');
         }
