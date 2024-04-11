@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node --watch src/server.js"
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js"
   },
+  "type": "module",
   "keywords": [],
-  "author": "",
+  "author": "Maximiliano Ramos Zwenger",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2"
