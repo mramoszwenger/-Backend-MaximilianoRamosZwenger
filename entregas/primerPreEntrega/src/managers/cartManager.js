@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+
 class CartManager {
     constructor(path) {
         this.path = path
