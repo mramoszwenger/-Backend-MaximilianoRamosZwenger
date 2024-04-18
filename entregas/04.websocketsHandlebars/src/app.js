@@ -34,8 +34,8 @@ app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 
 // Manejo de errores
-app.use((request, response, next) => {
-    console.log(error);
+app.use((error, request, response, next) => {
+    console.error(error);
     response.status(500).send('Error 500 en el server');
 });
 
@@ -49,5 +49,5 @@ socketServer.on('connection', (socket) => {
         const products = await productManager.getProducts();
         socket.emit('products', products);
     });
-    
+
 });
