@@ -1,5 +1,6 @@
-const { Router } = require('express');
-const { uploader } = require('../utils/multer');
+import {Router} from 'express';
+import {uploader} from '../utils/multer.js';
+
 const router = new Router()
 
 router.get('/', (request, response) => {
@@ -26,4 +27,4 @@ router.post('/upload-file', uploader.single('myfile'), (request, response) => {
     response.render('succesFile')
 });
 
-module.exports = router
+export default router;

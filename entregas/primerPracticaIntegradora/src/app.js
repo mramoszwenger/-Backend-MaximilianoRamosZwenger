@@ -1,6 +1,6 @@
 import express from 'express';
-import productsRouter from './routes/product.router.js';
-import cartsRouter from './routes/cart.router.js';
+import productsRouter from './routes/api/products.router.js';
+import cartsRouter from './routes/api/cart.router.js';
 import {__dirname} from './utils.js';
 
 // motor de plantilla

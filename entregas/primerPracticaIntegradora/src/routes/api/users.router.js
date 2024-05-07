@@ -1,5 +1,6 @@
-const { Router } = require('express');
-const { userModel } = require('../../models/users.model');
+import {Router} from 'express';
+import {} from '../../models/users.model.js';
+
 const router = Router();
 
 router.get('/', async(request, response) => {
@@ -27,4 +28,4 @@ router.delete('/:uid', (request, response) => {
     response.send('delete User')
 })
 
-module.exports = router
+export default router;
