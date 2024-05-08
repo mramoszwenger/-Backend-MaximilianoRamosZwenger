@@ -2,9 +2,8 @@
   "name": "primerpracticaintegradora",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/app.js",
     "dev": "node --watch src/app.js"
   },
@@ -15,7 +14,7 @@
   "dependencies": {
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
-    "mongoose": "^8.3.3",
+    "mongoose": "^8.3.4",
     "multer": "^1.4.5-lts.1",
     "socket.io": "^4.7.5"
   }
