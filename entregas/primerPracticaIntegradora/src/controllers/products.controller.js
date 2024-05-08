@@ -1,6 +1,6 @@
 import ProductManagerMongo from '../dao/porductsManagerMongo.js';
 // import ProductManager from '../dao/productsManager.js';
-import {} from '../models/products.model.js';
+import {} from '../dao/models/products.model.js';
 
 // const path = './src/files/Products.json';
 const productManager = new ProductManagerMongo();
