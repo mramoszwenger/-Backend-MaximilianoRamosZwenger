@@ -1,4 +1,4 @@
-import { connect } from 'mongoose'
+import {connect} from 'mongoose';
 
 export const connectDB = () => {
     console.log('Base de Datos Conectada')
