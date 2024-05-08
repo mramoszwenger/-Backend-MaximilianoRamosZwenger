@@ -1,4 +1,4 @@
-import ProductManager from '../dao/productManager.js';
+import ProductManager from '../dao/productsManager.js';
 
 const path = './src/files/Products.json';
 const productManager = new ProductManager(path);
