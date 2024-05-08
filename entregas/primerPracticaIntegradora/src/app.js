@@ -1,15 +1,16 @@
 import express from 'express';
-import productsRouter from './routes/api/products.router.js';
-import cartsRouter from './routes/api/cart.router.js';
 import {__dirname} from './utils.js';
+import {connect} from './config/index.js';
 
 // motor de plantilla
 import handlebars from 'express-handlebars'
+import viewRouter from './routes/views.router.js';
 import { Server } from 'socket.io'
 
 const path = './file/Products.json';
 
 const app = express();
+
 
 const httpServer = app.listen(8080, error => {
     if(error) console.log(error)
@@ -25,13 +26,17 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname+'/public'));
 
 // Motor de plantillas
-app.engine('handlebars', handlebars.engine())
+app.engine('handlebars', handlebars.engine({
+    extname: '.hbs'
+}))
 // Dirección de las vistas (plantillas)
 app.set('views', __dirname+'/views')
-app.set('view engine', 'handlebars')
+app.set('view engine', 'hbs')
 
-app.use('/api/products', productsRouter)
-app.use('/api/carts', cartsRouter)
+connectDB();
+
+app.use('/', viewRouter);
+app.use();
 
 // Manejo de errores
 app.use((error, request, response, next) => {

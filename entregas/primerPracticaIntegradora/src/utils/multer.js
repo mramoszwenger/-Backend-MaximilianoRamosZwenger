@@ -1,5 +1,5 @@
-const multer = require('multer');
-const { dirname } = require('node:path');
+import multer from 'multer';
+import {dirname} from 'node:path';
 
 console.log(dirname(__dirname));
 
@@ -17,6 +17,6 @@ const uploader = multer({
     storage
 });
 
-module.exports = {
+export default {
     uploader
 }
