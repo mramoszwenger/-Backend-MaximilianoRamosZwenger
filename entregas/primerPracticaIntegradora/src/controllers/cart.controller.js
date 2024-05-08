@@ -1,4 +1,4 @@
-import CartManager from '../managers/cartManager.js';
+import CartManager from '../dao/cartManager.js';
 
 const path = './src/files/Cart.json';
 const cartManager = new CartManager(path);

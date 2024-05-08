@@ -1,6 +1,7 @@
 import express from 'express';
 import productsRouter from './routes/product.router.js';
 import cartsRouter from './routes/cart.router.js';
+import viewsRouter from './routes/views.router.js';
 import {__dirname} from './utils.js';
 
 // motor de plantilla
@@ -25,11 +26,14 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname+'/public'))
 
 // Motor de plantillas
-app.engine('handlebars', handlebars.engine())
+app.engine('hbs', handlebars.engine({
+    extname: '.hbs'
+}))
 // Dirección de las vistas (plantillas)
 app.set('views', __dirname+'/views')
-app.set('view engine', 'handlebars')
+app.set('view engine', 'hbs')
 
+app.use('/', viewsRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 
