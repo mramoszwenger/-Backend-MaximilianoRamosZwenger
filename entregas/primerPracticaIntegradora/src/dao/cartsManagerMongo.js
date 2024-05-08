@@ -1,11 +1,11 @@
-import { cartModel } from './models/carts.model.js';
+import { cartsModel } from './models/carts.model.js';
 
 class CartManager {
     constructor() {}
 
     getCarts = async () => {
         try {
-            return await cartModel.find({});
+            return await cartsModel.find({});
         } catch (error) {
             console.error('Error al obtener los carritos:', error);
             return [];
@@ -14,7 +14,7 @@ class CartManager {
 
     getCart = async (cid) => {
         try {
-            return await cartModel.findOne({ cid: cid });
+            return await cartsModel.findOne({ cid: cid });
         } catch (error) {
             console.error('Error al obtener el carrito:', error);
             return null;
@@ -24,7 +24,7 @@ class CartManager {
     createCart = async () => {
         try {
             const cid = Math.floor(Math.random() * 1000); // Genera un ID aleatorio
-            const newCart = await cartModel.create({ cid: cid, products: [] });
+            const newCart = await cartsModel.create({ cid: cid, products: [] });
             return newCart;
         } catch (error) {
             console.error('Error al crear el carrito:', error);
@@ -34,7 +34,7 @@ class CartManager {
 
     addProductToCart = async (cid, product) => {
         try {
-            const cart = await cartModel.findOne({ cid: cid });
+            const cart = await cartsModel.findOne({ cid: cid });
             if (!cart) {
                 console.error('El carrito no existe');
                 return null;
