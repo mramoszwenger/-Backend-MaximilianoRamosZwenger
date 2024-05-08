@@ -1,8 +1,9 @@
-import ProductManager from '../dao/productsManager.js';
+import ProductManagerMongo from '../dao/porductsManagerMongo.js';
+// import ProductManager from '../dao/productsManager.js';
 import {} from '../models/products.model.js';
 
-const path = './src/files/Products.json';
-const productManager = new ProductManager(path);
+// const path = './src/files/Products.json';
+const productManager = new ProductManagerMongo();
 
 const productController = {
   async getAllProducts(request, response) {
@@ -33,6 +34,9 @@ const productController = {
   async addProduct(request, response) {
     try {
       const product = await productManager.addProduct(request.body);
+      if (!product) {
+        return response.status(400).send('Todos los campos son obligatorios.');
+      }
       response.status(201).send(product);
     } catch (error) {
       response.status(500).send('Error al agregar el producto');
