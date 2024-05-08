@@ -8,7 +8,8 @@ import {__dirname} from './utils.js';
 import handlebars from 'express-handlebars'
 import { Server } from 'socket.io'
 
-const path = './file/Products.json';
+// const path = './file/Products.json';
+import { connectDb } from './config/index.js'
 
 const app = express();
 
@@ -24,6 +25,8 @@ const socketServer = new Server(httpServer)
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname+'/public'))
+
+connectDb()
 
 // Motor de plantillas
 app.engine('hbs', handlebars.engine({
