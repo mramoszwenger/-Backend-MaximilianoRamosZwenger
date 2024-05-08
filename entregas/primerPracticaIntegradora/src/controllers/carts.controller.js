@@ -1,7 +1,8 @@
-import CartManager from '../dao/cartsManager.js';
+// import CartManager from '../dao/cartsManager.js';
+import CartManager from '../dao/cartsManagerMongo.js';
 
-const path = './src/files/Cart.json';
-const cartManager = new CartManager(path);
+// const path = './src/files/Cart.json';
+const cartManager = new CartManager();
 
 const cartController = {
   async getCart(request, response) {
