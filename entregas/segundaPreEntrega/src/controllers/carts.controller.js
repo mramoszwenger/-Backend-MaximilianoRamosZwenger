@@ -8,7 +8,7 @@ const cartController = {
   async getCart(request, response) {
     try {
       const { cid } = request.params;
-      const cart = cid ? await cartManager.getCart(cid) : await cartManager.getCarts();
+      const cart = await cartManager.getCart(cid);
       if (!cart) {
         return response.status(404).send('Carrito no encontrado');
       }
