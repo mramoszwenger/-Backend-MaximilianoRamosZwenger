@@ -38,7 +38,63 @@ const cartController = {
     } catch (error) {
       response.status(500).send('Error al agregar producto al carrito');
     }
+  },
+
+  async removeProductFromCart(request, response) {
+    try {
+      const { cid, pid } = request.params;
+      const cart = await cartManager.removeProductFromCart(cid, pid);
+      if (!cart) {
+        return response.status(404).send('Carrito no encontrado');
+      }
+      response.json(cart);
+    } catch (error) {
+      response.status(500).send('Error al eliminar el producto del carrito');
+    }
+  },
+
+  async updateCart(request, response) {
+    try {
+      const { cid } = request.params;
+      const products = request.body.products;
+      const updatedCart = await cartManager.updateCart(cid, products);
+      if (!updatedCart) {
+        return response.status(404).send('Carrito no encontrado');
+      }
+      response.json(updatedCart);
+    } catch (error) {
+      response.status(500).send('Error al actualizar el carrito');
+    }
+  },
+
+  async updateProductQuantity(request, response) {
+    try {
+      const { cid, pid } = request.params;
+      const { quantity } = request.body;
+      const updatedCart = await cartManager.updateProductQuantity(cid, pid, quantity);
+      if (!updatedCart) {
+        return response.status(404).send('Carrito no encontrado');
+      }
+      response.json(updatedCart);
+    } catch (error) {
+      response.status(500).send('Error al actualizar la cantidad del producto en el carrito');
+    }
+  },
+
+  async clearCart(request, response) {
+    try {
+      const { cid } = request.params;
+      const clearedCart = await cartManager.clearCart(cid);
+      if (!clearedCart) {
+        return response.status(404).send('Carrito no encontrado');
+      }
+      response.json(clearedCart);
+    } catch (error) {
+      response.status(500).send('Error al vaciar el carrito');
+    }
   }
 };
+
+
 
 export default cartController;
