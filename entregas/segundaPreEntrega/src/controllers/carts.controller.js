@@ -44,8 +44,8 @@ const cartController = {
   async removeProductFromCart(request, response) {
     try {
       const { cid, pid } = request.params;
-      const cart = await cartManager.removeProductFromCart(cid, pid);
-      if (!cart) {
+      const updatedCart = await cartManager.removeProduct(cid, pid);
+      if (!updatedCart) {
         return response.status(404).send('Carrito no encontrado');
       }
       response.json(cart);
@@ -85,7 +85,7 @@ const cartController = {
   async clearCart(request, response) {
     try {
       const { cid } = request.params;
-      const clearedCart = await cartManager.clearCart(cid);
+      const clearedCart = await cartManager.clearAllProducts(cid);
       if (!clearedCart) {
         return response.status(404).send('Carrito no encontrado');
       }
