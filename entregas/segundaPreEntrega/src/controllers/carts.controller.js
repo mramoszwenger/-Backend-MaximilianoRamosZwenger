@@ -8,7 +8,7 @@ const cartController = {
   async getCart(request, response) {
     try {
       const { cid } = request.params;
-      const cart = await cartManager.getCart(cid);
+      const cart = cid ? await cartManager.getCart(cid) : await cartManager.getCarts();
       if (!cart) {
         return response.status(404).send('Carrito no encontrado');
       }
@@ -30,7 +30,8 @@ const cartController = {
   async addProductToCart(request, response) {
     try {
       const { cid, pid } = request.params;
-      const cart = await cartManager.addProductToCart(cid, { product: pid, quantity: 1 });
+      const { quantity } = request.body;
+      const cart = await cartManager.addProductToCart(cid, { product: pid, quantity: quantity || 1 });
       if (!cart) {
         return response.status(404).send('Carrito no encontrado');
       }
@@ -56,7 +57,7 @@ const cartController = {
   async updateCart(request, response) {
     try {
       const { cid } = request.params;
-      const products = request.body.products;
+      const { products } = request.body;
       const updatedCart = await cartManager.updateCart(cid, products);
       if (!updatedCart) {
         return response.status(404).send('Carrito no encontrado');
@@ -94,7 +95,5 @@ const cartController = {
     }
   }
 };
-
-
 
 export default cartController;
