@@ -8,11 +8,29 @@ const productManager = new ProductManagerMongo();
 const productController = {
   async getAllProducts(request, response) {
     try {
-      let productList = await productManager.getProducts();
-      if (request.query.limit) {
-        productList = productList.slice(0, Number(request.query.limit));
-      }
-      response.json(productList);
+      const { limit = 10, page = 1, sort, query } = request.query;
+      const filters = query ? { $or: [{ category: query }, { availability: query }] } : {};
+      const options = {
+        limit: parseInt(limit),
+        page: parseInt(page),
+        sort: sort ? { price: sort === 'asc' ? 1 : -1 } : {},
+      };
+
+      const result = await productManager.getProducts(filters, options);
+      const { docs, totalDocs, totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } = result;
+
+      response.json({
+        status: 'success',
+        payload: docs,
+        totalPages,
+        prevPage,
+        nextPage,
+        page: options.page,
+        hasPrevPage,
+        hasNextPage,
+        prevLink: hasPrevPage ? `/api/products?limit=${limit}&page=${prevPage}&sort=${sort}&query=${query}` : null,
+        nextLink: hasNextPage ? `/api/products?limit=${limit}&page=${nextPage}&sort=${sort}&query=${query}` : null,
+      });
     } catch (error) {
       response.status(500).send('Error al obtener los productos');
     }

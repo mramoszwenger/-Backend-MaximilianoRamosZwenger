@@ -26,9 +26,9 @@ class ProductManagerMongo {
         }
     }
 
-    getProducts = async () => {
+    getProducts = async (filters, options) => {
         try {
-            return await this.productModel.find({});
+            return await this.productModel.paginate(filters, options);
         } catch (error) {
             console.error('Error al obtener los productos:', error);
             return [];
