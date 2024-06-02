@@ -1,7 +1,10 @@
 import express from 'express';
+import session from 'express-session';
 import productsRouter from './routes/product.router.js';
 import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';
+import usersRouter from './routes/users.router.js';
+import sessionsRouter from './routes/sessions.router.js';
 import {__dirname} from './utils.js';
 
 // motor de plantilla
@@ -26,6 +29,13 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname+'/public'));
 
+// sessions
+app.use(session({
+    secret: 'secretcode',
+    resave: false,
+    saveUninitialized: false,
+  }));
+
 connectDB()
 
 // Motor de plantillas
@@ -39,6 +49,8 @@ app.set('view engine', 'hbs');
 app.use('/', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/sessions', sessionsRouter);
 
 // Manejo de errores
 app.use((error, request, response, next) => {
