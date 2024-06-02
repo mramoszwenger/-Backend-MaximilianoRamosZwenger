@@ -2,8 +2,26 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.get('/', async (request, response) => {
-    response.render('index')
-})
+router.get('/', (request, response) => {
+  response.render('index');
+});
 
-export default router
+router.get('/login', (request, response) => {
+  response.render('login');
+});
+
+router.get('/register', (request, response) => {
+  response.render('register');
+});
+
+router.get('/products', (request, response) => {
+  if (!request.session.user) {
+    return response.redirect('/login');
+  }
+
+  response.render('home', {
+    user: request.session.user,
+  });
+});
+
+export default router;
