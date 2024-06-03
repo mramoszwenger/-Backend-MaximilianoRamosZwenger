@@ -5,4 +5,4 @@ const authMiddleware = (request, response, next) => {
     next();
   };
   
-  export default authMiddleware;
+export default authMiddleware;

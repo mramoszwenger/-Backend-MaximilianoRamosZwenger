@@ -13,6 +13,11 @@ import { Server } from 'socket.io';
 
 // const path = './file/Products.json';
 import { connectDB } from './config/index.js';
+import MongoStore from 'connect-mongo'
+
+// passport 
+import passport from 'passport'
+import { initializePassport } from './config/passport.js'
 
 const app = express();
 
@@ -34,7 +39,14 @@ app.use(session({
     secret: 'secretcode',
     resave: false,
     saveUninitialized: false,
+//    store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1:27017/ecommerce_mrz' })
   }));
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+initializePassport();
 
 connectDB()
 
@@ -42,6 +54,7 @@ connectDB()
 app.engine('hbs', handlebars.engine({
     extname: '.hbs'
 }))
+
 // Dirección de las vistas (plantillas)
 app.set('views', __dirname+'/views');
 app.set('view engine', 'hbs');

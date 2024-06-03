@@ -1,9 +1,10 @@
 import { Router } from 'express';
+import authMiddleware from '../middlewares/auth.middleware.js';
 
 const router = Router();
 
-router.get('/', (request, response) => {
-  response.render('index');
+router.get('/', authMiddleware, (request, response) => {
+  response.render('home');
 });
 
 router.get('/login', (request, response) => {
@@ -19,9 +20,6 @@ router.get('/products', (request, response) => {
     return response.redirect('/login');
   }
 
-  response.render('home', {
-    user: request.session.user,
-  });
 });
 
 export default router;

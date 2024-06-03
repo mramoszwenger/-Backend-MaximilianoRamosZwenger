@@ -1,17 +1,26 @@
-<main class="container">
+<!DOCTYPE html>
+<html lang="es">
 
-  <h1>Registro</h1>
-  
-  <form action="/api/users/register" method="POST" class="form-group w-50">
-    <label>Email</label>
-    <input type="email" name="email" class="form-control" required>
-    <label>Password</label>
-    <input type="password" name="password" class="form-control" required>
-    <button class="btn btn-outline-dark w-100 mt-3">Enviar</button>
-  </form>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
 
-  <div>
-    <a href="/login">Ya tienes una cuenta? Inicia sesión</a>
-  </div>
+<body>
+    <h1>Register</h1>
 
-</main>
+    <form action="/api/sessions/register" method="POST">
+        <label for="email">Email:</label>
+        <input type="email" name="email" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
+        <br>
+        <button type="submit">Register</button>
+    </form>
+
+    <a href="/login">Login</a>
+</body>
+
+</html>
