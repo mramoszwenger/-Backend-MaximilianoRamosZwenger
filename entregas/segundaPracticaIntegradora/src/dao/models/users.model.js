@@ -2,20 +2,44 @@ import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 
 const userSchema = new Schema({
+
+  first_name: {
+    type: String,
+    required: true
+  },
+
+  last_name: {
+    type: String,
+    required: true
+  },
+
+  age: {
+    type: Number,
+    required: true
+  },
+
   email: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
+
   password: {
     type: String,
-    required: true,
+    required: true
   },
+
   role: {
     type: String,
     enum: ['admin', 'user'],
-    default: 'user',
+    default: 'user'
   },
+
+  cart: {
+    type: Schema.Types.ObjectId,
+    ref: 'Cart'
+  },
+
 });
 
 userSchema.pre('save', async function (next) {
