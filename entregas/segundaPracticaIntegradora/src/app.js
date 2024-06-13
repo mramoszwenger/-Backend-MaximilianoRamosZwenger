@@ -16,6 +16,7 @@ import { connectDB } from './config/index.js';
 import MongoStore from 'connect-mongo'
 
 // passport 
+import cookieParser from 'cookie-parser';
 import passport from 'passport'
 import { initializePassport } from './config/passport.js'
 
@@ -33,13 +34,14 @@ const socketServer = new Server(httpServer);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname+'/public'));
+app.use(cookieParser());
 
 // sessions
 app.use(session({
     secret: 'secretcode',
     resave: false,
     saveUninitialized: false,
-//    store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1:27017/ecommerce_mrz' })
+    store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1:27017/ecommerce_mrz' })
   }));
 
 // Passport middleware

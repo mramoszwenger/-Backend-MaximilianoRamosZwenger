@@ -1,6 +1,6 @@
 import UserManagerMongo from '../dao/usersManagerMongo.js';
 import jwt from 'jsonwebtoken';
-import { jwtSecret } from '../config/index.js';
+import { JWT_SECRET } from '../config/index.js';
 
 const userManager = new UserManagerMongo();
 

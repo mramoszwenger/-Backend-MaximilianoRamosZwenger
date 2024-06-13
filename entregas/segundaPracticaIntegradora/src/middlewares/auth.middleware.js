@@ -1,14 +1,14 @@
 import jwt from 'jsonwebtoken';
-import { jwtSecret } from '../config/index.js'
+import { JWT_SECRET } from '../config/index.js';
 
 const authMiddleware = (request, response, next) => {
 
     const token = request.cookies.jwt;
     if (!token) {
-      return res.status(401).json({ status: 'error', message: 'No encontro token' });
+      return response.status(401).json({ status: 'error', message: 'No encontro token' });
     }
 
-    jwt.verify(token, jwtSecret, (error, decoded) => {
+    jwt.verify(token, JWT_SECRET, (error, decoded) => {
       if (error) {
         return response.status(401).json({ status: 'error', message: 'Token incirrecto' });
       }
