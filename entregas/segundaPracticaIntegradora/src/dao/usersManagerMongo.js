@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { userModel } from './models/users.model.js';
 
 class UserManagerMongo {

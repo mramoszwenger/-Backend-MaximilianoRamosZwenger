@@ -1,15 +1,9 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GitHubStrategy } from 'passport-github2';
-import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import UserManagerMongo from '../dao/usersManagerMongo.js';
 
 const userService = new UserManagerMongo();
-
-const opts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: 'wh@tsA$3cr3T'
-};
 
 export const initializePassport = () => {
   passport.use('register', new LocalStrategy({
@@ -32,7 +26,7 @@ export const initializePassport = () => {
     try {
       const user = await userService.authenticateUser(email, password);
       if (!user) {
-        return done(null, false, { message: 'Invalid email or password' });
+        return done(null, false, { message: 'Correo o contraseña incorrecta' });
       }
       return done(null, user);
     } catch (error) {
@@ -74,18 +68,5 @@ export const initializePassport = () => {
     }
   });
 };
-
-passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
-  try {
-    const user = await User.findById(jwt_payload.id);
-    if (user) {
-      return done(null, user);
-    } else {
-      return done(null, false);
-    }
-  } catch (error) {
-    return done(error, false);
-  }
-}));
 
 export default passport;
