@@ -1,7 +1,5 @@
-// import CartManager from '../dao/cartsManager.js';
-import CartManager from '../dao/cartsManagerMongo.js';
+import CartManager from '../dao/cartsDaoMongo.js';
 
-// const path = './src/files/Cart.json';
 const cartManager = new CartManager();
 
 const cartController = {

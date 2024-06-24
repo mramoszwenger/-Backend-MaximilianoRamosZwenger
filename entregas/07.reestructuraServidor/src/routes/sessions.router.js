@@ -1,5 +1,5 @@
 import { Router } from 'express';
-// import UserManagerMongo from '../dao/usersManagerMongo.js';
+// import UserManagerMongo from '../dao/usersDaoMongo.js';
 import passport from 'passport';
 import userController from '../controllers/users.controller.js';
 import authMiddleware from '../middlewares/auth.middleware.js';

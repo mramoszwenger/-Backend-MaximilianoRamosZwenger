@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GitHubStrategy } from 'passport-github2';
-import UserManagerMongo from '../dao/usersManagerMongo.js';
+import UserManagerMongo from '../dao/usersDaoMongo.js';
 
 const userService = new UserManagerMongo();
 
