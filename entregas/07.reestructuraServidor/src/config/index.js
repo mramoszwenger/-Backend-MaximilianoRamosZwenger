@@ -11,7 +11,6 @@ export const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/eco
 export const connectDB = () => {
     console.log('Base de Datos Conectada')
     connect(
-        // connect('mongodb://mramoszwenger:C0d3R-d@7e@ecommerce.o4nmbry.mongodb.net/ecommerce_mrz?retryWrites=true&w=majority&appName=ecommerce')
         MONGO_URI, {
     })
 };

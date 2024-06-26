@@ -1,5 +1,5 @@
 import express from 'express';
-import session from 'express-session';
+// import session from 'express-session';
 import productsRouter from './routes/product.router.js';
 import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';

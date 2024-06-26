@@ -6,6 +6,9 @@ import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '../config.js';
 
 const userService = new UserManagerMongo();
 
+console.log('GITHUB_CLIENT_ID:', GITHUB_CLIENT_ID);
+console.log('GITHUB_CLIENT_SECRET:', GITHUB_CLIENT_SECRET);
+
 export const initializePassport = () => {
   passport.use('register', new LocalStrategy({
     usernameField: 'email',
