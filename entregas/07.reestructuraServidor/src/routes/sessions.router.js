@@ -1,5 +1,4 @@
 import { Router } from 'express';
-// import UserManagerMongo from '../dao/usersDaoMongo.js';
 import passport from 'passport';
 import userController from '../controllers/users.controller.js';
 import authMiddleware from '../middlewares/auth.middleware.js';
@@ -25,16 +24,10 @@ sessionsRouter.get('/githubcallback', passport.authenticate('github', {failureRe
     response.redirect('/')
 })
 
-sessionsRouter.post('/login', userController.loginUser);
-
-sessionsRouter.get('/current', authMiddleware, (request, response) => {
-  response.json({ status: 'success', user: request.user });
-});
-
 sessionsRouter.get('/logout', (request, response) => {
-    request.session.destroy( err => {
-        if(err) return response.send({status: 'error', error: err})
-        else return response.redirect('/login')
+    request.logout( error => {
+        if(error) return response.send({status: 'error', error: error})
+        response.redirect('/login')
     })
 })
 

@@ -47,9 +47,13 @@ userSchema.pre('save', async function (next) {
   if (!user.isModified('password')) {
     return next();
   }
+  try {
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
   next();
+  } catch(error) {
+    next(error);
+  }
 });
 
 export const userModel = model('User', userSchema);
