@@ -2,6 +2,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GitHubStrategy } from 'passport-github2';
 import UserManagerMongo from '../dao/usersDaoMongo.js';
+import {GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '../config.js';
 
 const userService = new UserManagerMongo();
 
@@ -36,6 +37,8 @@ export const initializePassport = () => {
   }));
 
   passport.use(new GitHubStrategy({
+//    clientID: GITHUB_CLIENT_ID,
+//    clientSecret: GITHUB_CLIENT_SECRET,
     clientID: 'Iv23lifig732UoB8lvLJ',
     clientSecret: 'eb7fecf77b37d6f89eb9ef32092081f163b25429',
     callbackURL: 'http://localhost:8080/api/sessions/githubcallback'

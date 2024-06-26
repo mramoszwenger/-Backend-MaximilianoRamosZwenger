@@ -10,7 +10,7 @@ const authMiddleware = (request, response, next) => {
 
     jwt.verify(token, JWT_SECRET, (error, decoded) => {
       if (error) {
-        return response.status(401).json({ status: 'error', message: 'Token incirrecto' });
+        return response.status(401).json({ status: 'error', message: 'Token incorrecto' });
       }
       request.user = decoded;
       next();

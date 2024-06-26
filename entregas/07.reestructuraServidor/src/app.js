@@ -5,6 +5,7 @@ import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';
 import usersRouter from './routes/users.router.js';
 import sessionsRouter from './routes/sessions.router.js';
+import { PORT } from './config.js';
 import {__dirname} from './utils.js';
 
 // motor de plantilla
@@ -22,9 +23,9 @@ import { initializePassport } from './config/passport.js'
 
 const app = express();
 
-const httpServer = app.listen(8080, error => {
+const httpServer = app.listen(PORT || 8080, error => {
     if(error) console.log(error)
-    console.log('Server escuchando en el puerto 8080')
+    console.log(`Server escuchando en el puerto ${PORT}`)
 })
 
 // socket server
@@ -35,14 +36,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname+'/public'));
 app.use(cookieParser());
-
-// sessions
-app.use(session({
-    secret: 'secretcode',
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1:27017/ecommerce_mrz' })
-  }));
 
 // Passport middleware
 app.use(passport.initialize());
