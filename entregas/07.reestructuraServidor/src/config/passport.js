@@ -10,9 +10,10 @@ export const initializePassport = () => {
     usernameField: 'email',
     passwordField: 'password',
     passReqToCallback: true
-  }, async (req, email, password, done) => {
+  }, async (request, email, password, done) => {
     try {
-      const user = await userService.createUser({ email, password });
+      const { first_name, last_name, age } = request.body;
+      const user = await userService.createUser({ first_name, last_name, age, email, password });
       return done(null, user);
     } catch (error) {
       return done(error);

@@ -5,11 +5,7 @@ import authMiddleware from '../middlewares/auth.middleware.js';
 
 const sessionsRouter = Router();
 
-sessionsRouter.post('/register', passport.authenticate('register', {
-    successRedirect: '/login',
-    failureRedirect: '/register',
-    failureFlash: true
-}));
+sessionsRouter.post('/register', userController.registerUser);
   
 sessionsRouter.post('/login', passport.authenticate('login', {
     successRedirect: '/products',
