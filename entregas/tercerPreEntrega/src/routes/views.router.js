@@ -19,7 +19,7 @@ router.get('/products', (request, response) => {
   if (!request.session.user) {
     return response.redirect('/login');
   }
-
+  response.render('products');
 });
 
 export default router;

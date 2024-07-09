@@ -21,7 +21,7 @@ sessionsRouter.get('/githubcallback', passport.authenticate('github', {failureRe
 })
 
 sessionsRouter.get('/logout', (request, response) => {
-    request.logout( error => {
+    request.logout(error => {
         if(error) return response.send({status: 'error', error: error})
         response.redirect('/login')
     })
