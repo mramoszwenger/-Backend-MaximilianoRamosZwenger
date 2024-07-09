@@ -3,8 +3,8 @@ import {} from '../models/products.model.js';
 
 const productManager = new ProductManagerMongo();
 
-const productController = {
-  async getAllProducts(request, response) {
+class productController {
+  getAllProducts = async (request, response) => {
     try {
       const { limit = 10, page = 1, sort, query } = request.query;
       const filters = query ? { $or: [{ category: query }, { availability: query }] } : {};
@@ -32,9 +32,9 @@ const productController = {
     } catch (error) {
       response.status(500).send('Error al obtener los productos');
     }
-  },
+  }
 
-  async getProductById(request, response) {
+  getProductById = async (request, response) => {
     const pid = Number(request.params.pid);
     try {
       const product = await productManager.getProductById(pid);
@@ -45,9 +45,9 @@ const productController = {
     } catch (error) {
       response.status(500).send('Error al obtener producto por ID');
     }
-  },
+  }
 
-  async addProduct(request, response) {
+  addProduct = async (request, response) => {
     try {
       const product = await productManager.addProduct(request.body);
       if (!product) {
@@ -57,9 +57,9 @@ const productController = {
     } catch (error) {
       response.status(500).send('Error al agregar el producto');
     }
-  },
+  }
 
-  async updateProduct(request, response) {
+  updateProduct = async (request, response) => {
     const pid = Number(request.params.pid);
     try {
       const updatedProduct = await productManager.updateProduct(pid, request.body);
@@ -70,9 +70,9 @@ const productController = {
     } catch (error) {
       response.status(500).send('Error al actualizar el producto');
     }
-  },
+  }
 
-  async deleteProduct(request, response) {
+  deleteProduct = async (request, response) => {
     const pid = Number(request.params.pid);
     try {
       const deletedProduct = await productManager.deleteProduct(pid);

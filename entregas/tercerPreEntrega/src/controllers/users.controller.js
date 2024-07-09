@@ -4,8 +4,8 @@ import { JWT_SECRET } from '../config/index.js';
 
 const userManager = new UserManagerMongo();
 
-const userController = {
-  async registerUser(request, response) {
+class userController {
+  registerUser = async (request, response) => {
     const { first_name, last_name, age, email, password } = request.body;
     console.log('Request body:', request.body);
     try {
@@ -16,9 +16,9 @@ const userController = {
       console.error('Error al registrar usuario:', error);
       response.status(500).json({ status: 'error', message: error.message });
     }
-  },
+  }
 
-  async loginUser(request, response) {
+  loginUser = async (request, response) => {
     const { email, password } = request.body;
     try {
       const user = await userManager.authenticateUser(email, password);

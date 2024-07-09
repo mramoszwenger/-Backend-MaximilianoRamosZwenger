@@ -1,9 +1,11 @@
 import CartManager from '../dao/cartsDaoMongo.js';
+import ProductManager from '../dao/productsDaoMongo.js';
+import Ticket from '../models/tickets.model.js';
 
 const cartManager = new CartManager();
 
-const cartController = {
-  async getCart(request, response) {
+class cartController {
+  getCart = async (request, response) => {
     try {
       const { cid } = request.params;
       const cart = await cartManager.getCart(cid);
@@ -14,18 +16,18 @@ const cartController = {
     } catch (error) {
       response.status(500).send('Error al obtener el carrito');
     }
-  },
+  }
 
-  async createCart(request, response) {
+  createCart = async (request, response) => {
     try {
       const newCart = await cartManager.createCart();
       response.json(newCart);
     } catch (error) {
       response.status(500).send('Error al crear el carrito');
     }
-  },
+  }
 
-  async addProductToCart(request, response) {
+  addProductToCart = async (request, response) => {
     try {
       const { cid, pid } = request.params;
       const { quantity } = request.body;
@@ -37,9 +39,9 @@ const cartController = {
     } catch (error) {
       response.status(500).send('Error al agregar producto al carrito');
     }
-  },
+  }
 
-  async removeProductFromCart(request, response) {
+  removeProductFromCart = async (request, response) => {
     try {
       const { cid, pid } = request.params;
       const updatedCart = await cartManager.removeProduct(cid, pid);
@@ -50,9 +52,9 @@ const cartController = {
     } catch (error) {
       response.status(500).send('Error al eliminar el producto del carrito');
     }
-  },
+  }
 
-  async updateCart(request, response) {
+  updateCart = async (request, response) => {
     try {
       const { cid } = request.params;
       const { products } = request.body;
@@ -64,9 +66,9 @@ const cartController = {
     } catch (error) {
       response.status(500).send('Error al actualizar el carrito');
     }
-  },
+  }
 
-  async updateProductQuantity(request, response) {
+  updateProductQuantity = async (request, response) => {
     try {
       const { cid, pid } = request.params;
       const { quantity } = request.body;
@@ -78,9 +80,9 @@ const cartController = {
     } catch (error) {
       response.status(500).send('Error al actualizar la cantidad del producto en el carrito');
     }
-  },
+  }
 
-  async clearCart(request, response) {
+  clearCart = async (request, response) => {
     try {
       const { cid } = request.params;
       const clearedCart = await cartManager.clearAllProducts(cid);
@@ -90,6 +92,52 @@ const cartController = {
       response.json(clearedCart);
     } catch (error) {
       response.status(500).send('Error al vaciar el carrito');
+    }
+  }
+
+  purchaseCart = async (request, response) => {
+    try {
+      const { cid } = request.params;
+      const cart = await cartManager.getCart(cid);
+      if (!cart) {
+        return response.status(404).send('Carrito no encontrado');
+      }
+
+      let totalAmount = 0;
+      const failedProducts = [];
+      const purchasedProducts = [];
+
+      for (const item of cart.products) { // Asegúrate de que el campo sea correcto
+        const product = await productManager.getProductById(item.product);
+        if (product.stock >= item.quantity) {
+          product.stock -= item.quantity;
+          totalAmount += product.price * item.quantity;
+          purchasedProducts.push(item);
+          await product.save();
+        } else {
+          failedProducts.push(item.product);
+        }
+      }
+
+      if (purchasedProducts.length > 0) {
+        const ticket = new Ticket({
+          code: uuidv4(),
+          purchase_datetime: new Date(),
+          amount: totalAmount,
+          purchaser: request.user.email
+        });
+        await ticket.save();
+      }
+
+      cart.products = failedProducts.map(productId => cart.products.find(item => item.product === productId));
+      await cart.save();
+
+      response.status(200).send({
+        message: 'Compra completada',
+        failedProducts
+      });
+    } catch (error) {
+      response.status(500).send('Error al finalizar la compra');
     }
   }
 };
