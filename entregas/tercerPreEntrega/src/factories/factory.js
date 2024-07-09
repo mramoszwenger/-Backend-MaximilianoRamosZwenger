@@ -1,20 +1,33 @@
-import userDAO from '../daos/userDAO';
-import productDAO from '../daos/productDAO';
-import cartDAO from '../daos/cartDAO';
+import { connectDB } from "../config/index.js";
+import { PERSISTENCE } from "../config.js";
 
-class DAOFactory {
-  static getDAO(type) {
-    switch (type) {
-      case 'user':
-        return userDAO;
-      case 'product':
-        return productDAO;
-      case 'cart':
-        return cartDAO;
-      default:
-        throw new Error('DAO type not supported');
-    }
-  }
-}
+export let ProductsDao;
+export let CartsDao;
+export let UsersDao;
 
-export default DAOFactory;
+switch (PERSISTENCE) {
+
+    case "MEMORY":
+        // Implementar DAOs en memoria.
+        break;
+
+    case "FS":
+        // Importar DAOs para persistencia en sistema de archivos (FS)
+        const { default: ProductDaoFS } = await import('./FS/productsManager.js')
+        ProductsDao = ProductDaoFS
+        break;
+
+    default:
+        // MONGO
+        connectDB();
+
+        // Importar DAOs para persistencia en MongoDB
+        const { default: ProductDaoMongo } = await import("./MONGO/productDao.mongo.js")
+        const { default: CartDaoMongo } = await import("./MONGO/cartsDao.mongo.js")
+        const { default: UsersDaoMongo } = await import("./MONGO/usersDao.mongo.js")
+
+        ProductsDao = ProductDaoMongo
+        CartsDao = CartDaoMongo
+        UsersDao = UsersDaoMongo 
+        break;
+};
