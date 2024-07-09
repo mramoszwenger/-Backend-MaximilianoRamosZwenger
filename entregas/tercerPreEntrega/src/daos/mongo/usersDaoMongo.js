@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { userModel } from '../models/users.model.js';
+import { userModel } from '../../models/users.model.js';
 
 class UserManagerMongo {
   async createUser(userData) {
