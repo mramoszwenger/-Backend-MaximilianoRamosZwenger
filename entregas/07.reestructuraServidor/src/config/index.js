@@ -4,8 +4,8 @@ import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
-export const JWT_SECRET = process.env.JWT_SECRET || 'wh@tsA$3cr3T';
-export const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/ecommerce_mrz'
+// export const JWT_SECRET = process.env.JWT_SECRET || 'wh@tsA$3cr3T';
+// export const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/ecommerce_mrz'
 
 // Conexión Base de Datos
 export const connectDB = () => {

@@ -6,8 +6,8 @@ import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '../config.js';
 
 const userService = new UserManagerMongo();
 
-console.log('GITHUB_CLIENT_ID:', GITHUB_CLIENT_ID);
-console.log('GITHUB_CLIENT_SECRET:', GITHUB_CLIENT_SECRET);
+// console.log('GITHUB_CLIENT_ID:', GITHUB_CLIENT_ID);
+// console.log('GITHUB_CLIENT_SECRET:', GITHUB_CLIENT_SECRET);
 
 export const initializePassport = () => {
   passport.use('register', new LocalStrategy({
@@ -40,10 +40,10 @@ export const initializePassport = () => {
   }));
 
   passport.use(new GitHubStrategy({
-//    clientID: GITHUB_CLIENT_ID,
-//    clientSecret: GITHUB_CLIENT_SECRET,
-    clientID: 'Iv23lifig732UoB8lvLJ',
-    clientSecret: 'eb7fecf77b37d6f89eb9ef32092081f163b25429',
+    clientID: GITHUB_CLIENT_ID,
+    clientSecret: GITHUB_CLIENT_SECRET,
+//    clientID: 'Iv23lifig732UoB8lvLJ',
+//    clientSecret: 'eb7fecf77b37d6f89eb9ef32092081f163b25429',
     callbackURL: 'http://localhost:8080/api/sessions/githubcallback'
   }, async (accessToken, refreshToken, profile, done) => {
     try {
