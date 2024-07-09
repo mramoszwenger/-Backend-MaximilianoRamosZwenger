@@ -1,4 +1,6 @@
 import { cartsModel } from '../models/carts.model.js';
+import { productModel } from '../models/products.model.js';
+import Ticket from '../models/ticket.js';
 
 class CartManager {
     constructor() {}
@@ -121,6 +123,53 @@ class CartManager {
           return null;
         }
       }
+
+      purchaseCart = async (cid, purchaserEmail) => {
+        try {
+            const cart = await this.getCart(cid);
+            if (!cart) {
+                console.error('Carrito no encontrado');
+                return null;
+            }
+
+            let totalAmount = 0;
+            const failedProducts = [];
+            const purchasedProducts = [];
+
+            for (const item of cart.products) {
+                const product = await productModel.findById(item.product);
+                if (product.stock >= item.quantity) {
+                    product.stock -= item.quantity;
+                    totalAmount += product.price * item.quantity;
+                    purchasedProducts.push(item);
+                    await product.save();
+                } else {
+                    failedProducts.push(item.product);
+                }
+            }
+
+            if (purchasedProducts.length > 0) {
+                const ticket = new Ticket({
+                    code: uuidv4(),
+                    purchase_datetime: new Date(),
+                    amount: totalAmount,
+                    purchaser: purchaserEmail
+                });
+                await ticket.save();
+            }
+
+            cart.products = failedProducts.map(productId => cart.products.find(item => item.product.equals(productId)));
+            await cart.save();
+
+            return {
+                success: purchasedProducts.length > 0,
+                failedProducts
+            };
+        } catch (error) {
+            console.error('Error al finalizar la compra:', error);
+            return null;
+        }
+    }
 }
 
 export default CartManager;

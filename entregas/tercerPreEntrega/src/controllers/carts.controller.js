@@ -3,6 +3,7 @@ import ProductManager from '../dao/productsDaoMongo.js';
 import Ticket from '../models/tickets.model.js';
 
 const cartManager = new CartManager();
+const productManager = new ProductManager();
 
 class cartController {
   getCart = async (request, response) => {
