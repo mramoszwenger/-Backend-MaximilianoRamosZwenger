@@ -1,4 +1,4 @@
-import DAOFactory from '../factories/daoFactory';
+import DAOFactory from '../factories/factory.js';
 
 class ProductRepository {
   constructor() {
