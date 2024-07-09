@@ -1,5 +1,5 @@
-import CartManager from '../dao/cartsDaoMongo.js';
-import ProductManager from '../dao/productsDaoMongo.js';
+import CartManager from '../daos/mongo/cartsDaoMongo.js';
+import ProductManager from '../daos/mongo/productsDaoMongo.js';
 import Ticket from '../models/tickets.model.js';
 
 const cartManager = new CartManager();

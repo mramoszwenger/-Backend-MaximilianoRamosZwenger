@@ -1,6 +1,6 @@
 import { cartsModel } from '../../models/carts.model.js';
 import { productModel } from '../../models/products.model.js';
-import Ticket from '../models/ticket.js';
+import Ticket from '../../models/tickets.model.js';
 
 class CartManager {
     constructor() {}

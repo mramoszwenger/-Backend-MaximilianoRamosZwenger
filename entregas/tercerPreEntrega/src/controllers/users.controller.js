@@ -1,4 +1,4 @@
-import UserManagerMongo from '../dao/usersDaoMongo.js';
+import UserManagerMongo from '../daos/mongo/usersDaoMongo.js';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config/index.js';
 
