@@ -1,4 +1,4 @@
-import {connect} from 'mongoose';
+import { connect } from 'mongoose';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 
