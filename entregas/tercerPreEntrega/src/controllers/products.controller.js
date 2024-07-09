@@ -4,7 +4,13 @@ import {} from '../models/products.model.js';
 const productManager = new ProductManagerMongo();
 
 class productController {
+
+  constructor() {
+    console.log('ProductController instantiated');
+  }
+
   getAllProducts = async (request, response) => {
+    console.log('getAllProducts called');
     try {
       const { limit = 10, page = 1, sort, query } = request.query;
       const filters = query ? { $or: [{ category: query }, { availability: query }] } : {};

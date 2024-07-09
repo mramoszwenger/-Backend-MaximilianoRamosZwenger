@@ -54,6 +54,8 @@ app.engine('hbs', handlebars.engine({
 app.set('views', __dirname+'/views');
 app.set('view engine', 'hbs');
 
+// console.log('Adding routes');
+
 app.use('/', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
