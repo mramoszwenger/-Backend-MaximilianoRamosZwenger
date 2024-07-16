@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
-import userController from '../controllers/users.controller.js';
-import authMiddleware from '../middlewares/auth.middleware.js';
+import userController from '../../controllers/users.controller.js';
+import authMiddleware from '../../middlewares/auth.middleware.js';
 
 const sessionsRouter = Router();
 
