@@ -1,5 +1,6 @@
 import express from 'express';
-// import session from 'express-session';
+import session from 'express-session';
+import dotenv from 'dotenv';
 import productsRouter from './routes/product.router.js';
 import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';
@@ -13,7 +14,7 @@ import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
 
 // const path = './file/Products.json';
-import { connectDB } from './config/index.js';
+import { connectDB, sessionSecret } from './config/index.js';
 import MongoStore from 'connect-mongo'
 
 // passport 
@@ -36,6 +37,14 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname+'/public'));
 app.use(cookieParser());
+
+// Middleware para sesiones
+app.use(session({
+    secret: sessionSecret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // Usa secure: true si tu aplicación usa HTTPS
+  }));
 
 // Passport middleware
 app.use(passport.initialize());
