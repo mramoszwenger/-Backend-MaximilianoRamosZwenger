@@ -20,7 +20,7 @@ import MongoStore from 'connect-mongo'
 // passport 
 import cookieParser from 'cookie-parser';
 import passport from 'passport'
-import { initializePassport } from './config/passport.js'
+import { initializePassport } from './config/passport.config.js'
 
 const app = express();
 

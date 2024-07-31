@@ -1,15 +1,28 @@
 import passport from 'passport';
+import jwt from 'passport-jwt';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GitHubStrategy } from 'passport-github2';
 import UserManagerMongo from '../daos/mongo/usersDaoMongo.js';
-import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '../config.js';
+import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, JWT_SECRET } from '../config.js';
+import { createHash, isValidPassword } from '../utils/bcrypt.js';
 
 const userService = new UserManagerMongo();
+
+const JWTStrategy = jwt.Strategy;
+const ExtractJWT  = jwt.ExtractJwt;
 
 // console.log('GITHUB_CLIENT_ID:', GITHUB_CLIENT_ID);
 // console.log('GITHUB_CLIENT_SECRET:', GITHUB_CLIENT_SECRET);
 
 export const initializePassport = () => {
+  const cookieExtractor = req => {
+    let token = null
+    if (req && req.cookies) {
+        token = req.cookies['token']
+    }
+    return token
+  }
+
   passport.use('register', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
@@ -22,6 +35,21 @@ export const initializePassport = () => {
     } catch (error) {
       return done(error);
     }
+  }));
+
+  passport.use('jwt', new JWTStrategy({
+    jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+    secretOrKey: JWT_SECRET
+  }, async (jwt_payload, done) => {
+      try {
+        const user = await userService.getUserBy({ _id: jwt_payload.id }); // Ejemplo de verificación
+        if (!user) {
+          return done(null, false, { message: 'No user found' });
+        }  
+        return done(null, jwt_payload);
+      } catch (error) {
+          return done(error);
+      }
   }));
 
   passport.use('login', new LocalStrategy({
