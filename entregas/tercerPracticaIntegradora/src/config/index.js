@@ -4,15 +4,16 @@ import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
-// export const JWT_SECRET = process.env.JWT_SECRET || 'wh@tsA$3cr3T';
-// export const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/ecommerce_mrz'
+const JWT_SECRET = process.env.JWT_SECRET || 'wh@tsA$3cr3T';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/ecommerce_mrz'
 
 // Conexión Base de Datos
 export const connectDB = () => {
     console.log('Base de Datos Conectada')
     connect(
-        MONGO_URI, {
-    })
+        MONGO_URI, {          
+    }).then(() => console.log("Conexión exitosa"))
+    .catch((error) => console.error("Error conectando a la base de datos:", error));
 };
 
 // Generar Token JWT

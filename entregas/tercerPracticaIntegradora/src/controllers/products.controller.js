@@ -92,4 +92,4 @@ class productController {
   }
 };
 
-export default productController;
+export default new productController();

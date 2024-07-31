@@ -143,4 +143,4 @@ class cartController {
   }
 };
 
-export default cartController;
+export default new cartController();

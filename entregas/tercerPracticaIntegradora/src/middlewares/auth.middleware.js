@@ -2,6 +2,9 @@ import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config.js';
 
 const authMiddleware = (roles = []) => {
+  if (typeof roles === 'string') {
+    roles = [roles];
+  }
   return (request, response, next) => {
     const token = request.cookies.jwt;
     if (!token) {
