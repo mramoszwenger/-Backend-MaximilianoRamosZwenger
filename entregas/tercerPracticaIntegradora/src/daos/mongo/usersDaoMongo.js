@@ -34,6 +34,42 @@ class UserManagerMongo {
 
     return user;
   }
+
+  async getAllUsers() {
+    try {
+      return await userModel.find();
+    } catch (error) {
+      console.log('Error al obtener usuarios:', error);
+      throw error;
+    }
+  }
+
+  async getUserById(id) {
+    try {
+      return await userModel.findById(id);
+    } catch (error) {
+      console.log('Error al obtener usuario por ID:', error);
+      throw error;
+    }
+  }
+
+  async updateUser(id, userData) {
+    try {
+      return await userModel.findByIdAndUpdate(id, userData, { new: true });
+    } catch (error) {
+      console.log('Error al actualizar usuario:', error);
+      throw error;
+    }
+  }
+
+  async deleteUser(id) {
+    try {
+      return await userModel.findByIdAndDelete(id);
+    } catch (error) {
+      console.log('Error al eliminar usuario:', error);
+      throw error;
+    }
+  }
 }
 
 export default UserManagerMongo;

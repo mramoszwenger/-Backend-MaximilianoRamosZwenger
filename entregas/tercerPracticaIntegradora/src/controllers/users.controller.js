@@ -32,6 +32,59 @@ class userController {
       response.status(500).json({ status: 'error', message: error.message });
     }
   }
+
+  getUserById = async (request, response) => {
+    const { uid } = request.params;
+    try {
+      const user = await userManager.getUserBy({ _id: uid });
+      if (!user) {
+        response.status(404).json({ status: 'error', message: 'Usuario no encontrado' });
+      } else {
+        response.json({ status: 'success', user });
+      }
+    } catch (error) {
+      response.status(500).json({ status: 'error', message: error.message });
+    }
+  }
+
+  getAllUsers = async (req, res) => {
+    try {
+      const users = await userManager.getAllUsers();
+      res.json({ status: 'success', users });
+    } catch (error) {
+      res.status(500).json({ status: 'error', message: error.message });
+    }
+  }
+
+  updateUser = async (request, response) => {
+    const { uid } = request.params;
+    const userUpdates = request.body;
+    try {
+      const user = await userManager.updateUser(uid, userUpdates);
+      if (!user) {
+        response.status(404).json({ status: 'error', message: 'Usuario no encontrado' });
+      } else {
+        response.json({ status: 'success', message: 'Usuario actualizado', user });
+      }
+    } catch (error) {
+      response.status(500).json({ status: 'error', message: error.message });
+    }
+  }
+
+  deleteUser = async (request, response) => {
+    const { uid } = request.params;
+    try {
+      const result = await userManager.deleteUser(uid);
+      if (!result) {
+        response.status(404).json({ status: 'error', message: 'Usuario no encontrado' });
+      } else {
+        response.json({ status: 'success', message: 'Usuario eliminado' });
+      }
+    } catch (error) {
+      response.status(500).json({ status: 'error', message: error.message });
+    }
+  }
+
 };
 
 export default new userController();

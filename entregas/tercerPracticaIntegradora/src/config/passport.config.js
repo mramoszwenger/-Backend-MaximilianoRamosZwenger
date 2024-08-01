@@ -96,7 +96,7 @@ export const initializePassport = () => {
 
   passport.deserializeUser(async (id, done) => {
     try {
-      const user = await userService.getUserBy({ _id: id });
+      const user = await userService.getUserById({ _id: id });
       done(null, user);
     } catch (error) {
       done(error);

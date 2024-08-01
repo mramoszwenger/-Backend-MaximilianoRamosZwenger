@@ -1,11 +1,11 @@
 import express from 'express';
 import session from 'express-session';
 import dotenv from 'dotenv';
-import productsRouter from './routes/product.router.js';
-import cartsRouter from './routes/carts.router.js';
+import productsRouter from './routes/api/product.router.js';
+import cartsRouter from './routes/api/carts.router.js';
 import viewsRouter from './routes/views.router.js';
-import usersRouter from './routes/users.router.js';
-import sessionsRouter from './routes/sessions.router.js';
+import usersRouter from './routes/api/users.router.js';
+import sessionsRouter from './routes/api/sessions.router.js';
 import { PORT } from './config.js';
 import {__dirname} from './utils.js';
 

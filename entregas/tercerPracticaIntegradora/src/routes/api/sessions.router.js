@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import passport from 'passport';
-import userController from '../controllers/users.controller.js';
-import authMiddleware from '../middlewares/auth.middleware.js';
-import { passportCall } from '../utils/passportCall.js';
-import { atuhorization } from '../utils/authorizationJwt.js';
+import userController from '../../controllers/users.controller.js';
+import authMiddleware from '../../middlewares/auth.middleware.js';
+import { passportCall } from '../../utils/passportCall.js';
+import { atuhorization } from '../../utils/authorizationJwt.js';
 
 const sessionsRouter = Router();
 

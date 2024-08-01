@@ -3,7 +3,7 @@ import authMiddleware from '../middlewares/auth.middleware.js';
 
 const router = Router();
 
-router.get('/', authMiddleware, (request, response) => {
+router.get('/', (request, response) => {
   response.render('index');
 });
 
