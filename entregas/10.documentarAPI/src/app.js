@@ -8,6 +8,8 @@ import usersRouter from './routes/api/users.router.js';
 import sessionsRouter from './routes/api/sessions.router.js';
 import { PORT } from './config.js';
 import {__dirname} from './utils.js';
+import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
 
 // motor de plantilla
 import handlebars from 'express-handlebars';
@@ -31,6 +33,21 @@ const httpServer = app.listen(PORT || 8080, error => {
 
 // socket server
 const socketServer = new Server(httpServer);
+
+// swagger para documentar
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'Documentación de eCommerce desarrollado con NodeJS + Express + MongoDB',
+            description: 'API para documetar eCommerce'
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+}
+
+const specs = swaggerJsDoc(swaggerOptions)
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 // Lectura del JSON
 app.use(express.json());
